@@ -1,0 +1,3 @@
+yolov3_training_v2_final.weights
+yolov3_training_v2.cfg
+obj.names
