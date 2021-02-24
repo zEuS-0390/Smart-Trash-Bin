@@ -114,9 +114,7 @@ class yolo_objection_detection (object):
 
             cv2.imshow("img", image)
             
-            del tempDetected, confidences, class_ids, square, ret, image
-
-            key = cv2.waitKey(1)
+            del tempDetected, confidences, class_ids, square, ret
 
             if self.stop:
                 if not os.path.exists("images"):
@@ -125,6 +123,7 @@ class yolo_objection_detection (object):
                 img_info = "images\\{}.jpg".format(now.strftime("%Y-%m-%d-%H-%M-%S"))
                 cv2.imwrite(img_info, image)
                 print("\n> {} was saved in the images directory".format(img_info))
+                del image
                 break
             
         cv2.destroyAllWindows()
