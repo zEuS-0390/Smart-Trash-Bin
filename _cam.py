@@ -28,6 +28,8 @@ class ObjectDetection (object):
         self.currentDetected = ()
         self.image = None
 
+        self.detecting = True
+
         camera = threading.Thread(target=self.videoCamera)
         detection = threading.Thread(target=self.detectObjects)
         
@@ -37,11 +39,11 @@ class ObjectDetection (object):
         detection.join()
         
     def detectObjects(self):
-        while True:
+        while self.detecting:
             
             if self.image is not None:
                 height, width, channels = self.image.shape
-                blob = cv2.dnn.blobFromImage(self.image, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+                blob = cv2.dnn.blobFromImage(self.image, 0.00392, (220, 220), (0, 0, 0), True, crop=False)
                 self.net.setInput(blob)
                 outs = self.net.forward(self.outputLayers)
                 class_ids = []
@@ -71,7 +73,8 @@ class ObjectDetection (object):
                 self.currentDetected = (square, class_ids, confidences, indexes)
 
     def videoCamera(self):
-        capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        capture = cv2.VideoCapture(0)
+            
         font = cv2.FONT_HERSHEY_PLAIN
         
         while True:
@@ -99,8 +102,10 @@ class ObjectDetection (object):
             
             if key == 27:
                 break
-            
+
+        capture.release()
         cv2.destroyAllWindows()
+        self.detecting = False
 
 if __name__=="__main__":
     
