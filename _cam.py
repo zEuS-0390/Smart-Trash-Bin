@@ -43,7 +43,7 @@ class ObjectDetection (object):
             
             if self.image is not None:
                 height, width, channels = self.image.shape
-                blob = cv2.dnn.blobFromImage(self.image, 0.00392, (220, 220), (0, 0, 0), True, crop=False)
+                blob = cv2.dnn.blobFromImage(self.image, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
                 self.net.setInput(blob)
                 outs = self.net.forward(self.outputLayers)
                 class_ids = []
