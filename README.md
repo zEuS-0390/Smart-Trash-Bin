@@ -9,8 +9,13 @@
 - [AlexeyAB\Darknet](https://github.com/AlexeyAB/darknet)
 
 **Classes:**
- - Bottle
+ - ~~Bottle~~
  - Can
+ - PET Bottle
+ - Glass Bottle
+ - Aluminum Bottle
+ - Paper
+ - Aluminum
 
 **Program Prerequisites:**
 - cv2 - [opencv-python 4.5.1.48](https://pypi.org/project/opencv-python/)
