@@ -22,4 +22,4 @@
 - numpy - [numpy 1.20.1](https://pypi.org/project/numpy/)
 
 ### NOTE
-Before running the program, you must first include this .weights file: [yolov3_training_v2_final.weights](https://drive.google.com/file/d/1CqX_Wjm32SwYVX5NdL6MYwTQ-ogs6SNH/view?usp=sharing)
+Before running the program, you must first include this .weights file: [yolov3_training_v2_final.weights](https://drive.google.com/file/d/1CqX_Wjm32SwYVX5NdL6MYwTQ-ogs6SNH/view?usp=sharing) [Can and Bottle]
