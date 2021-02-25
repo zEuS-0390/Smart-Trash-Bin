@@ -111,8 +111,6 @@ class yolo_objection_detection (object):
                     del x, y, w, h
 
             self.detected = tempDetected
-
-            cv2.imshow("img", image)
             
             del tempDetected, confidences, class_ids, square, ret
 
