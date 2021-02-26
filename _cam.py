@@ -14,8 +14,10 @@ import numpy as np
         - numpy
 """
 
+# Object Detection Class
 class ObjectDetection (object):
 
+    # The main constructor of the detection class
     def __init__(self, weights, cfg, names):
         self.net = cv2.dnn.readNet(weights, cfg)
         self.classes = []
@@ -37,7 +39,8 @@ class ObjectDetection (object):
         detection.start()
         camera.join()
         detection.join()
-        
+
+    # Method for detecting objects 
     def detectObjects(self):
         while self.detecting:
             
@@ -49,6 +52,7 @@ class ObjectDetection (object):
                 class_ids = []
                 confidences = []
                 square = []
+                print(outs)
                 
                 for out in outs:
                     for detection in out:
@@ -72,8 +76,31 @@ class ObjectDetection (object):
                 indexes = cv2.dnn.NMSBoxes(square, confidences, 0.5, 0.5)
                 self.currentDetected = (square, class_ids, confidences, indexes)
 
+    # Method for the video capture
     def videoCamera(self):
-        capture = cv2.VideoCapture(0)
+        
+        try:
+            print("Initializing video capture")
+            capture = cv2.VideoCapture(0)
+            
+            if not capture.isOpened():
+                print("Internal camera not detected")
+                capture.release()
+                capture = cv2.VideoCapture(1)
+                if not capture.isOpened():
+                    print("External camera not detected")
+                    capture.release()
+                    self.detecting = False
+                    return
+                else:
+                    print("External camera detected")
+            else:
+                print("Internal camera detected")
+        except:
+            print("Error initializing video capture")
+            capture.release()
+            self.detecting = False
+            return
             
         font = cv2.FONT_HERSHEY_PLAIN
         
