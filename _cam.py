@@ -15,7 +15,7 @@ import numpy as np
 """
 
 # Object Detection Class
-class ObjectDetection (object):
+class ObjectDetection:
 
     # The main constructor of the detection class
     def __init__(self, weights, cfg, names):
