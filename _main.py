@@ -46,7 +46,6 @@ class yolo_objection_detection (object):
 
     # Main Object Detection Processing Method
     def obj_detection(self):
-        print("> [Point the objects to camera for {} seconds]\n> Detecting Objects ".format(self.delaySeconds), end="", flush=True)
 
         # Setup the algorithm, trained model, names and configurations
         net = cv2.dnn.readNet(self.weights, self.cfg)
@@ -59,7 +58,28 @@ class yolo_objection_detection (object):
         layer_names = net.getLayerNames()
         outputLayers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-        capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        try:
+            capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        except:
+            print("Error intializing video capture")
+            return
+        
+        if not capture.isOpened():
+            print("Can't initialize using internal camera\nInitializing using external camera...")
+            capture = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+            if not capture.isOpened():
+                print("")
+                return
+            else:
+                print("Success initialization using external camera")
+        else:
+            print("Success initialization using internal camera")
+
+        print("> [Point the objects to camera for {} seconds]\n> Detecting Objects ".format(self.delaySeconds), end="", flush=True)
+
+        init_time = time.perf_counter()
+        y = threading.Thread(target=self.time_thread, args=(init_time,))
+        y.start()
 
         # Setup Video Capture
         while True:
@@ -111,8 +131,6 @@ class yolo_objection_detection (object):
                     del x, y, w, h
 
             self.detected = tempDetected
-
-            cv2.imshow("img", image)
             
             del tempDetected, confidences, class_ids, square, ret
 
@@ -125,20 +143,18 @@ class yolo_objection_detection (object):
                 print("\n> {} was saved in the images directory".format(img_info))
                 del image
                 break
-            
+
+        y.join()
+        capture.release()    
         cv2.destroyAllWindows()
         return
 
     # Initializes Detection Method
     def init_detection(self):
-        init_time = time.perf_counter()
         self.stop = False
         x = threading.Thread(target=self.obj_detection)
-        y = threading.Thread(target=self.time_thread, args=(init_time,))
         x.start()
-        y.start()
         x.join()
-        y.join()
         print("> Detection Done!\n> Objects Detected:", self.detected)
 
     # Props for the hardware
