@@ -52,7 +52,6 @@ class ObjectDetection:
                 class_ids = []
                 confidences = []
                 square = []
-                print(outs)
                 
                 for out in outs:
                     for detection in out:
