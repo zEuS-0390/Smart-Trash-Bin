@@ -11,11 +11,7 @@
 **Classes:**
  - ~~Bottle~~
  - Can
-<<<<<<< HEAD
- - PET Bottle 
-=======
  - PET Bottle
->>>>>>> threadTest
  - Glass Bottle
  - Aluminum Bottle
  - Paper
